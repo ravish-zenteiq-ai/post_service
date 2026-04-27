@@ -8,9 +8,20 @@ class Post(Base):
     id= Column(Integer, primary_key=True, nullable=False)
     title= Column(String, nullable=False)
     description = Column(String, nullable = False)
-    is_published = Column(Boolean, nullable = False, server_default='TRUE')
+    is_published = Column(Boolean, nullable = False, server_default=text('true'))
     created_at = Column(
         TIMESTAMP(timezone=True),
         nullable=False, 
         server_default=text('NOW()')
     )
+class User(Base):
+    __tablename__ = "User"
+
+    id  = Column(Integer, primary_key=True, nullable=False)
+    name  = Column(String, nullable=False)
+    job  = Column(String, nullable=False, server_default=text("''Nothing"))
+    created_at = Column(
+        TIMESTAMP(timezone=True),
+        nullable=False,
+        server_default=text('NOW()')
+    ) 
