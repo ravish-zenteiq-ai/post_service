@@ -47,7 +47,7 @@ async def create_post(post: createPost,db: Session =  Depends(get_db)):
     db.refresh(newPost)
     # return{"message": newPost}
     return newPost
-@app.get("/post/{id}")
+@app.get("/post/{id}", response_model=Post)
 async def get_post(id: int, db: Session = Depends(get_db)):
     one_post = db.query(model.Post).filter(model.Post.id == id).first()   #.all() is also there but the thing is only one post will be there of 1 id it will onl;y take tyime in db to search another post of that id i.e time wate onl;y
     if not one_post:
@@ -55,7 +55,7 @@ async def get_post(id: int, db: Session = Depends(get_db)):
     # return{"message": one_post}
     return{"message": one_post}
 
-@app.put("/post/{id}")
+@app.put("/post/{id}", response_model=Post)
 async def update_post(id: int, db: Session = Depends(get_db), post = createPost):
     find = db.query(model.Post).filter(model.Post.id == id)
     find.update({"title": post.title, "description": post.description}, synchronize_session=False),

@@ -1,7 +1,7 @@
 
 from __future__ import annotations #store type hint as strings instead of acutual objects ( we can use title: name => even if name is not defined yet)
 from datetime import datetime
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, EmailStr
 
 
 
@@ -23,3 +23,13 @@ class Post(createPost):
     # description: str
     created_at: datetime
     # is_published: bool
+
+
+class CreateUser(BaseModel):
+    email: EmailStr
+    password: str
+    name: str
+    job: str | None = None
+
+class User(CreateUser):
+    created_at: datetime
