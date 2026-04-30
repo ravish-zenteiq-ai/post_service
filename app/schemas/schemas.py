@@ -31,5 +31,11 @@ class CreateUser(BaseModel):
     name: str
     job: str | None = None
 
-class User(CreateUser):
+class User(BaseModel):
+    email: EmailStr
+    name: str
     created_at: datetime
+
+class loginUser(BaseModel):
+    email: EmailStr
+    password: str

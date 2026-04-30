@@ -1,0 +1,68 @@
+"""
+🔐 PASSWORD HASHING WITH ARGON2 (via pwdlib)
+
+We use Argon2 (recommended) for secure password storage.
+
+-------------------------------
+🧠 HOW HASHING WORKS (Signup)
+-------------------------------
+1. User gives plain password
+2. Argon2 automatically:
+   - Generates random SALT
+   - Applies hashing multiple times (time_cost)
+   - Uses memory (memory_cost)
+   - Uses CPU threads (parallelism)
+3. Produces final hash string:
+
+   $argon2id$v=19$m=...,t=...,p=...$<salt>$<hash>
+
+4. This single string contains:
+   - algorithm info
+   - parameters
+   - salt
+   - final hash
+
+✅ We store ONLY this hash in DB
+❌ Never store plain password
+
+-------------------------------
+🔍 HOW VERIFICATION WORKS (Login)
+-------------------------------
+1. User enters password again
+2. Stored hash is read from DB
+3. Argon2 extracts:
+   - salt
+   - parameters
+4. Recomputes hash using same config
+5. Compares result with stored hash
+
+✅ Match → correct password
+❌ No match → invalid password
+
+-------------------------------
+⚠️ IMPORTANT RULES
+-------------------------------
+- Never compare hashes manually
+- Always use verify()
+- Never store raw password
+- Never use SHA-256 for passwords
+- Do not modify hash string
+
+-------------------------------
+🧠 KEY IDEA
+-------------------------------
+We DO NOT "decode" password.
+We RE-COMPUTE hash and compare.
+
+password → hash → store
+login → hash again → compare
+
+-------------------------------
+🚀 WHY ARGON2?
+-------------------------------
+- Slow (prevents brute force)
+- Uses memory (blocks GPU attacks)
+- Built-in salt (prevents rainbow attacks)
+- Industry standard
+
+"""
