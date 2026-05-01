@@ -2,7 +2,8 @@
 from __future__ import annotations #store type hint as strings instead of acutual objects ( we can use title: name => even if name is not defined yet)
 from datetime import datetime
 from pydantic import BaseModel, Field, EmailStr
-
+from typing import Optional
+        
 
 
 
@@ -39,3 +40,10 @@ class User(BaseModel):
 class loginUser(BaseModel):
     email: EmailStr
     password: str
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+class TokenData(BaseModel):
+    id: Optional
