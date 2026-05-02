@@ -3,7 +3,7 @@ from __future__ import annotations #store type hint as strings instead of acutua
 from datetime import datetime
 from pydantic import BaseModel, Field, EmailStr
 from typing import Optional
-        
+
 
 
 
@@ -46,4 +46,5 @@ class Token(BaseModel):
     token_type: str
 
 class TokenData(BaseModel):
-    id: Optional
+    id: Optional[str]=None
+    
