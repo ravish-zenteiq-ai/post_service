@@ -1,3 +1,4 @@
+from sqlalchemy import ForeignKey
 from sqlalchemy import Boolean, TIMESTAMP, text, String, Integer, Column
 
 from app.db.base import Base
@@ -14,6 +15,7 @@ class Post(Base):
         nullable=False, 
         server_default=text('NOW()')
     )
+    user_id = Column(Integer,ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
 class User(Base):
     __tablename__ = "users"
 

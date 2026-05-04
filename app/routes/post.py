@@ -5,7 +5,7 @@ from app.schemas.schemas import (
     CreateUser,
     User
     )
-
+from app.utils import oauth2
 from fastapi import HTTPException, status, APIRouter, Depends
 from sqlalchemy.orm import Session
 # from app.main2 import get_db
@@ -25,7 +25,8 @@ async def posts(db: Session = Depends(get_db)):
     return getPosts
 
 @router.post("/", response_model=Post)
-async def post(post: createPost ,db: Session = Depends(get_db) ):
+async def post(post: createPost ,db: Session = Depends(get_db), get_current_user: int = Depends(oauth2.get_current_user) ):
+    print(get_current_user)
     newPost = model.Post(title = post.title, description = post.description)
     db.add(newPost)
     db.commit()
@@ -40,7 +41,7 @@ async def get_post(id: int, db: Session = Depends(get_db)):
     return getPost
 
 @router.put("/{id}", response_model=Post)
-async def put_post(post: createPost,id: int,db: Session = Depends(get_db)):
+async def put_post(post: createPost,id: int,db: Session = Depends(get_db),get_current_user: int = Depends(oauth2.get_current_user) ):
     updtPost = db.query(model.Post).filter(model.Post.id == id)
     if not updtPost.first():
         raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail="This post is not there")
@@ -49,7 +50,7 @@ async def put_post(post: createPost,id: int,db: Session = Depends(get_db)):
     return updtPost.first()
 
 @router.delete("/{id}")
-async def dlt_post(id: int,db: Session = Depends(get_db)):
+async def dlt_post(id: int,db: Session = Depends(get_db), get_current_user: int = Depends(oauth2.get_current_user) ):
     dltPost = db.query(model.Post).filter(model.Post.id == id)
     if not dltPost.first():
         raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail="This post is not there")
